@@ -3,9 +3,6 @@ name: Publish H5 to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - 'demo/**'
-      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -29,14 +26,11 @@ jobs:
         with:
           node-version: '24'
       - name: Build Worker resources for tests
-        working-directory: demo
         run: npm run build
       - name: Run business and cross-origin tests
-        working-directory: demo
         run: npm test
-      - name: Build H5 under demo
-        working-directory: demo
-        run: node scripts/build-pages.mjs ../_site/demo
+      - name: Build H5 at site root
+        run: node scripts/build-pages.mjs _site
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages site

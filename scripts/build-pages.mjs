@@ -1,5 +1,5 @@
 import {mkdirSync,readFileSync,writeFileSync,copyFileSync} from 'node:fs';
-const output=process.argv[2] || 'outputs/pages/demo';
+const output=process.argv[2] || 'outputs/pages';
 const apiOrigin=process.argv[3] || 'https://qingyu-login-portal.xphyym.chatgpt.site';
 const url=new URL(apiOrigin);
 if(!['http:','https:'].includes(url.protocol) || url.origin!==apiOrigin)throw new Error('Provide an API origin without a trailing slash');
