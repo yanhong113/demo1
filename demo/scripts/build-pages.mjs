@@ -1,0 +1,13 @@
+import {mkdirSync,readFileSync,writeFileSync,copyFileSync} from 'node:fs';
+const output=process.argv[2] || 'outputs/pages/demo';
+const apiOrigin=process.argv[3] || 'https://qingyu-login-portal.xphyym.chatgpt.site';
+const url=new URL(apiOrigin);
+if(!['http:','https:'].includes(url.protocol) || url.origin!==apiOrigin)throw new Error('Provide an API origin without a trailing slash');
+mkdirSync(output,{recursive:true});
+let html=readFileSync('web/index.html','utf8');
+html=html.replace('href="/style.css"','href="./style.css"').replace('src="/qr.js"','src="./qr.js"').replace('src="/app.js"','src="./app.js"');
+html=html.replace('<script src="./qr.js"','<script src="./config.js"></script><script src="./qr.js"');
+writeFileSync(output+'/index.html',html);
+writeFileSync(output+'/config.js','window.WEIYA_API_ORIGIN = '+JSON.stringify(apiOrigin)+';\n');
+for(const asset of ['style.css','app.js','qr.js'])copyFileSync('web/'+asset,output+'/'+asset);
+console.log('Built GitHub Pages H5 at '+output);

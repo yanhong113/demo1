@@ -1,0 +1,4 @@
+.qr-build/
+node_modules/
+.wrangler/
+outputs/
